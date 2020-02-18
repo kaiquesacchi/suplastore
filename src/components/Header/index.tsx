@@ -4,6 +4,12 @@ import styled from 'styled-components';
 import defaultProfilePicture from '../../static/default-profile-picture.png';
 
 const SCHeader = styled.section`
+  position: sticky;
+  top: 0;
+  left: 0;
+`;
+
+const UpperHeader = styled.section`
   width: 100vw;
   height: 80px;
   background-color: orange;
@@ -18,7 +24,7 @@ const Logo = styled.div`
   span {
     font-size: 3rem;
     font-weight: bolder;
-
+    color: #333;
     &.white {
       color: white;
     }
@@ -60,16 +66,16 @@ const Avatar = styled.div`
 
 export default function Header() {
   return (
-    <div>
-      <SCHeader>
+    <SCHeader>
+      <UpperHeader>
         <Logo>
           <span>Supla</span>
           <span className="white">STORE</span>
         </Logo>
         <Avatar>
-          <img src={defaultProfilePicture} />
+          <img src={defaultProfilePicture} alt="User profile" />
         </Avatar>
-      </SCHeader>
+      </UpperHeader>
       <SubHeader>
         <button>Os Mais Vendidos</button>
         <button>Proteínas</button>
@@ -77,6 +83,6 @@ export default function Header() {
         <button>Vitaminas</button>
         <button>Carrinho</button>
       </SubHeader>
-    </div>
+    </SCHeader>
   );
 }
