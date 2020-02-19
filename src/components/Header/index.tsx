@@ -2,11 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 
 import defaultProfilePicture from '../../static/default-profile-picture.png';
+import { useHistory } from 'react-router-dom';
 
 const SCHeader = styled.section`
   position: sticky;
   top: 0;
   left: 0;
+  box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.3);
+  z-index: 1;
 `;
 
 const UpperHeader = styled.section`
@@ -65,6 +68,8 @@ const Avatar = styled.div`
 `;
 
 export default function Header() {
+  const history = useHistory();
+
   return (
     <SCHeader>
       <UpperHeader>
@@ -81,7 +86,7 @@ export default function Header() {
         <button>Proteínas</button>
         <button>Carboidratos</button>
         <button>Vitaminas</button>
-        <button>Carrinho</button>
+        <button onClick={() => history.push('/cart')}>Carrinho</button>
       </SubHeader>
     </SCHeader>
   );
