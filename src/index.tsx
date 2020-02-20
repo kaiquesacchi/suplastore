@@ -7,6 +7,7 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Home from './pages/Home';
 import Cart from './pages/Cart';
+import OrderCompleted from './pages/OrderCompleted';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/cart" component={Cart} />
+        <Route exact path="/orderCompleted" component={OrderCompleted} />
       </Switch>
     </Router>
   );

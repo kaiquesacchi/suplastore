@@ -9,6 +9,7 @@ import imageCreatina from '../../static/creatina.png';
 import imagePalatinose from '../../static/palatinose.png';
 
 import CartCard from '../../components/CartCard';
+import { useHistory } from 'react-router-dom';
 
 const cart = [
   {
@@ -39,6 +40,7 @@ interface IProduct {
 }
 
 export default function Home() {
+  const history = useHistory();
   return (
     <Page>
       <Header />
@@ -58,7 +60,13 @@ export default function Home() {
         <h1>Finalize seu pedido</h1>
         <div>
           <p>R$500,50</p>
-          <button>Finalizar Pedido</button>
+          <button
+            onClick={() => {
+              history.push('/orderCompleted');
+            }}
+          >
+            Finalizar Pedido
+          </button>
         </div>
       </Footer>
     </Page>
