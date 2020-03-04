@@ -67,8 +67,35 @@ const Avatar = styled.div`
   }
 `;
 
-export default function Header() {
+interface IProps {
+  active?: string; // Active category`s id
+}
+
+export default function Header({ active }: IProps) {
   const history = useHistory();
+
+  const className = (id: string) => {
+    return id === active ? 'active' : '';
+  };
+
+  const categories = [
+    {
+      title: 'Os mais vendidos',
+      id: 'topsellers'
+    },
+    {
+      title: 'Proteínas',
+      id: 'proteins'
+    },
+    {
+      title: 'Carboidratos',
+      id: 'carbs'
+    },
+    {
+      title: 'Vitaminas',
+      id: 'vitamins'
+    }
+  ];
 
   return (
     <SCHeader>
@@ -77,15 +104,21 @@ export default function Header() {
           <span>Supla</span>
           <span className="white">STORE</span>
         </Logo>
-        <Avatar>
+        <Avatar onClick={() => history.push('/authentication')}>
           <img src={defaultProfilePicture} alt="User profile" />
         </Avatar>
       </UpperHeader>
       <SubHeader>
-        <button>Os Mais Vendidos</button>
-        <button>Proteínas</button>
-        <button>Carboidratos</button>
-        <button>Vitaminas</button>
+        {categories.map(category => {
+          return (
+            <button
+              className={className(category.id)}
+              onClick={() => history.push(`/categories/${category.id}`)}
+            >
+              {category.title}
+            </button>
+          );
+        })}
         <button onClick={() => history.push('/cart')}>Carrinho</button>
       </SubHeader>
     </SCHeader>
