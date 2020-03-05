@@ -112,6 +112,7 @@ export default function Header({ active }: IProps) {
         {categories.map(category => {
           return (
             <button
+              key={category.id}
               className={className(category.id)}
               onClick={() => history.push(`/categories/${category.id}`)}
             >

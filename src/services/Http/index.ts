@@ -1,19 +1,21 @@
 import axios from 'axios';
 
 export default class HttpService {
-  static get(url: string, data = {}) {
-    return axios.get(url, data);
+  static url = 'http://localhost:5000/';
+
+  static get(path: string, data = {}) {
+    return axios.get(HttpService.url + path, data);
   }
 
-  static post(url: string, data = {}) {
-    return axios.post(url, data);
+  static post(path: string, data = {}) {
+    return axios.post(HttpService.url + path, data);
   }
 
-  static put(url: string, data = {}) {
-    return axios.put(url, data);
+  static put(path: string, data = {}) {
+    return axios.put(HttpService.url + path, data);
   }
 
-  static delete(url: string, data = {}) {
-    return axios.delete(url, data);
+  static delete(path: string, data = {}) {
+    return axios.delete(HttpService.url + path, data);
   }
 }
