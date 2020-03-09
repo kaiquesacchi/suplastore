@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import UsersService from '../../services/Users';
+
 import Header from '../../components/Header';
 
 import { Page, Content, Form, Tabs } from './styles';
@@ -12,7 +14,6 @@ export default function Authentication() {
   const [inputName, setInputName] = useState('');
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
-  const [inputRepeatPassword, setInputRepeatPassword] = useState('');
 
   const inputs = () => {
     return activeTab === 'sign-up'
@@ -31,11 +32,6 @@ export default function Authentication() {
             placeholder: 'Senha',
             type: 'password',
             inputSetter: setInputPassword
-          },
-          {
-            placeholder: 'Repetir Senha',
-            type: 'password',
-            inputSetter: setInputRepeatPassword
           }
         ]
       : [
@@ -51,6 +47,30 @@ export default function Authentication() {
           }
         ];
   };
+
+  const signIn = () => {
+    UsersService.getByEmail(inputEmail)
+      .then(result => {
+        if (inputPassword === result.data.password) {
+          window.localStorage.setItem('user', JSON.stringify(result.data));
+          console.log('SignIn completed.');
+          history.push('/profile');
+        }
+        console.log('Wrong password');
+      })
+      .catch(error => console.log(error));
+  };
+
+  const signUp = () => {
+    UsersService.create(inputName, inputEmail, inputPassword)
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   return (
     <Page>
       <Header />
@@ -76,13 +96,18 @@ export default function Authentication() {
         <Form>
           {inputs().map((input, index) => {
             return (
-              <input placeholder={input.placeholder} type={input.type} key={index} />
+              <input
+                placeholder={input.placeholder}
+                type={input.type}
+                key={index}
+                onChange={event => input.inputSetter(event.target.value)}
+              />
             );
           })}
           {activeTab === 'sign-up' ? (
-            <button onClick={history.goBack}>Registrar</button>
+            <button onClick={signUp}>Registrar</button>
           ) : (
-            <button onClick={history.goBack}>Entrar</button>
+            <button onClick={signIn}>Entrar</button>
           )}
         </Form>
       </Content>

@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import Cart from './pages/Cart';
 import OrderCompleted from './pages/OrderCompleted';
 import Authentication from './pages/Authentication';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route exact path="/cart" component={Cart} />
         <Route exact path="/categories/:categoryName" component={Home} />
         <Route exact path="/orderCompleted" component={OrderCompleted} />
+        <Route exact path="/profile" component={Profile} />
       </Switch>
     </Router>
   );
