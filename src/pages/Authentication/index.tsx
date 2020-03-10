@@ -55,8 +55,9 @@ export default function Authentication() {
           window.localStorage.setItem('user', JSON.stringify(result.data));
           console.log('SignIn completed.');
           history.push('/profile');
+        } else {
+          console.log('Wrong password');
         }
-        console.log('Wrong password');
       })
       .catch(error => console.log(error));
   };
@@ -65,6 +66,7 @@ export default function Authentication() {
     UsersService.create(inputName, inputEmail, inputPassword)
       .then(result => {
         console.log(result);
+        signIn();
       })
       .catch(error => {
         console.log(error);
