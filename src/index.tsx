@@ -10,12 +10,14 @@ import Cart from './pages/Cart';
 import OrderCompleted from './pages/OrderCompleted';
 import Authentication from './pages/Authentication';
 import Profile from './pages/Profile';
+import Admin from './pages/Admin';
 
 function App() {
   return (
     <Router>
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route exact path="/admin" component={Admin} />
         <Route exact path="/authentication" component={Authentication} />
         <Route exact path="/cart" component={Cart} />
         <Route exact path="/categories/:categoryName" component={Home} />
