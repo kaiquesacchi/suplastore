@@ -1,57 +1,67 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Header from '../../components/Header';
 
 import { Page, CartList, Footer } from './styles';
 
-import imageWheyProtein from '../../static/whey-protein.png';
-import imageCreatina from '../../static/creatina.png';
-import imagePalatinose from '../../static/palatinose.png';
-
 import CartCard from '../../components/CartCard';
 import { useHistory } from 'react-router-dom';
 
-const cart = [
-  {
-    image: imageWheyProtein,
-    title: 'Whey Protein',
-    price: 80.0,
-    quantity: 3
-  },
-  {
-    image: imageCreatina,
-    title: 'Creatina',
-    price: 30.5,
-    quantity: 2
-  },
-  {
-    image: imagePalatinose,
-    title: 'Palatinose',
-    price: 82.45,
-    quantity: 1
-  }
-];
+import ProductsService from '../../services/Products';
 
 interface IProduct {
-  image: any;
-  title: string;
+  id: number;
+  image: string;
+  availableQuantity: number;
+  name: string;
+  description: string;
   price: number;
-  quantity: number;
 }
-
 export default function Home() {
   const history = useHistory();
+
+  const [cart, setCart] = useState(
+    JSON.parse(window.localStorage.getItem('cart') || '{}')
+  );
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    ProductsService.getAll()
+      .then(result => {
+        setProducts(result.data.products);
+      })
+      .catch(error => console.error(error));
+  }, []);
+
+  const totalPrice = () => {
+    const productIDs = Object.keys(cart);
+    if (productIDs.length === 0) return 0;
+    const cartProducts: IProduct[] = productIDs.map((id: string) => {
+      return products.filter((product: IProduct) => {
+        return product.id === parseInt(id);
+      })[0];
+    });
+    let total = 0;
+    cartProducts.forEach((product: IProduct) => {
+      product = product || {};
+      total += 'price' in product ? product.price * cart[String(product.id)] : 0;
+    });
+    return total;
+  };
+
   return (
     <Page>
       <Header />
       <CartList>
-        {cart.map((product: IProduct, index: number) => {
+        {products.map((product: IProduct, index: number) => {
+          if (cart[String(product.id)] === undefined) {
+            return '';
+          }
           return (
             <CartCard
               image={product.image}
-              title={product.title}
+              title={product.name}
               price={product.price}
-              quantity={product.quantity}
+              quantity={cart[String(product.id)]}
             />
           );
         })}
@@ -59,7 +69,7 @@ export default function Home() {
       <Footer>
         <h1>Finalize seu pedido</h1>
         <div>
-          <p>R$500,50</p>
+          <p>R${totalPrice()}</p>
           <button
             onClick={() => {
               history.push('/orderCompleted');
