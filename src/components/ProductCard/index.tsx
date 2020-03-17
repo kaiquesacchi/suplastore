@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const SCProductCard = styled.div`
@@ -63,13 +63,21 @@ const Price = styled.div`
 `;
 
 interface Props {
-  image: any;
+  id: number;
+  image: string;
   title: string;
   description: string;
   price: number;
 }
 
-export default function ProductCard({ image, title, description, price }: Props) {
+const addToCart = (id: number, quantity: number) => {
+  const cart = window.localStorage.getItem('cart');
+  let cartObj = JSON.parse(cart || '{}');
+  cartObj[String(id)] = (cartObj[String(id)] || 0) + quantity;
+  window.localStorage.setItem('cart', JSON.stringify(cartObj));
+};
+export default function ProductCard({ id, image, title, description, price }: Props) {
+  const [quantity, setQuantity] = useState(0);
   return (
     <SCProductCard>
       <img src={image} alt={title} />
@@ -80,8 +88,19 @@ export default function ProductCard({ image, title, description, price }: Props)
       <Price>
         <p>R${price}</p>
         <div>
-          <input placeholder="Qtde." />
-          <button>Adicionar ao Carrinho</button>
+          <input
+            placeholder="Qtde."
+            onChange={event => {
+              setQuantity(parseInt(event.target.value));
+            }}
+          />
+          <button
+            onClick={() => {
+              addToCart(id, quantity);
+            }}
+          >
+            Adicionar ao Carrinho
+          </button>
         </div>
       </Price>
     </SCProductCard>

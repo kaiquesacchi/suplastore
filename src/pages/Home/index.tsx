@@ -17,7 +17,8 @@ const ad = {
 };
 
 interface IProduct {
-  image: any;
+  id: number;
+  image: string;
   name: string;
   description: string;
   price: number;
@@ -38,7 +39,8 @@ export default function Home() {
       {products.map((product: IProduct, index: number) => {
         return (
           <ProductCard
-            key={product.name}
+            key={product.id}
+            id={product.id}
             image={product.image}
             title={product.name}
             description={product.description}
