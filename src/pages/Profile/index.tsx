@@ -29,10 +29,6 @@ export default function Authentication() {
           <span>Email</span>
           <span>{userObj.email}</span>
         </li>
-        <li>
-          <span>Compras</span>
-          <span>{userObj.purchases.toString()}</span>
-        </li>
 
         <button onClick={logout}>Sair</button>
       </Content>

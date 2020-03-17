@@ -8,6 +8,7 @@ import CartCard from '../../components/CartCard';
 import { useHistory } from 'react-router-dom';
 
 import ProductsService from '../../services/Products';
+import CartsService from '../../services/Carts';
 
 interface IProduct {
   id: number;
@@ -20,9 +21,7 @@ interface IProduct {
 export default function Home() {
   const history = useHistory();
 
-  const [cart, setCart] = useState(
-    JSON.parse(window.localStorage.getItem('cart') || '{}')
-  );
+  const [cart] = useState(JSON.parse(window.localStorage.getItem('cart') || '{}'));
   const [products, setProducts] = useState([]);
   useEffect(() => {
     ProductsService.getAll()
@@ -48,6 +47,33 @@ export default function Home() {
     return total;
   };
 
+  const checkout = () => {
+    const userString = window.localStorage.getItem('user');
+    if (userString === null) {
+      console.log('user is not authenticated');
+      history.push('authentication');
+      return;
+    }
+    const user = JSON.parse(userString);
+    console.log({
+      products: JSON.stringify(cart),
+      totalValue: totalPrice(),
+      userId: user.id
+    });
+
+    CartsService.create({
+      products: JSON.stringify(cart),
+      totalValue: totalPrice(),
+      userId: user.id
+    })
+      .then(result => {
+        console.log(result.data.id);
+        window.localStorage.removeItem('cart');
+        history.push('orderCompleted');
+      })
+      .catch(error => alert(error));
+  };
+
   return (
     <Page>
       <Header />
@@ -70,13 +96,7 @@ export default function Home() {
         <h1>Finalize seu pedido</h1>
         <div>
           <p>R${totalPrice()}</p>
-          <button
-            onClick={() => {
-              history.push('/orderCompleted');
-            }}
-          >
-            Finalizar Pedido
-          </button>
+          <button onClick={checkout}>Finalizar Pedido</button>
         </div>
       </Footer>
     </Page>
