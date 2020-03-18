@@ -14,6 +14,7 @@ const populateProducts = () => {
       console.log('Products created!');
     });
   });
+  alert('Banco de dados populado!');
 };
 
 const populateAds = () => {
@@ -22,6 +23,7 @@ const populateAds = () => {
       console.log('Advertisement created!');
     });
   });
+  alert('Banco de dados populado!');
 };
 
 interface IProduct {

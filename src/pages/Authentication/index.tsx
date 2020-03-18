@@ -57,12 +57,17 @@ export default function Authentication() {
         if (inputPassword === result.data.password) {
           window.localStorage.setItem('user', JSON.stringify(result.data));
           console.log('SignIn completed.');
+          alert('Login realizado com sucesso!');
           history.push('/profile');
         } else {
           console.log('Wrong password');
+          alert('Email ou senha incorretos!');
         }
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.log(error);
+        alert('Email ou senha incorretos!');
+      });
   };
 
   const signUp = () => {
@@ -73,6 +78,7 @@ export default function Authentication() {
       })
       .catch(error => {
         console.log(error);
+        alert('Erro ao criar a conta, tente novamente.');
       });
   };
 

@@ -14,6 +14,7 @@ export default function Authentication() {
 
   const logout = () => {
     window.localStorage.removeItem('user');
+    alert('Logout realizado com sucesso!');
     history.push('/authentication');
   };
 
