@@ -75,6 +75,7 @@ const addToCart = (id: number, quantity: number) => {
   let cartObj = JSON.parse(cart || '{}');
   cartObj[String(id)] = (cartObj[String(id)] || 0) + quantity;
   window.localStorage.setItem('cart', JSON.stringify(cartObj));
+  alert('Produto adicionado ao carrinho!');
 };
 export default function ProductCard({ id, image, title, description, price }: Props) {
   const [quantity, setQuantity] = useState(0);
