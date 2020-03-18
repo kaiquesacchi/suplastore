@@ -6,16 +6,9 @@ import AdsCard from '../../components/AdsCard';
 
 import { Page } from './styles';
 
-import imageAcademia from '../../static/ads-academia.jpg';
-
 import ProductsService from '../../services/Products';
 import { useParams } from 'react-router-dom';
-
-const ad = {
-  image: imageAcademia,
-  link: 'https://google.com',
-  text: 'As melhores academias a UM CLIQUE de distância'
-};
+import AdvertisementsService from '../../services/Advertisements';
 
 interface IProduct {
   id: number;
@@ -24,10 +17,17 @@ interface IProduct {
   description: string;
   price: number;
 }
+interface IAdvertisement {
+  id: number;
+  image: string;
+  owner: string;
+  link: string;
+}
 
 export default function Home() {
   const { active } = useParams();
   const [products, setProducts] = useState([]);
+  const [advertisements, setAdvertisements] = useState([]);
   useEffect(
     () => {
       let response;
@@ -41,6 +41,10 @@ export default function Home() {
           setProducts(result.data.products);
         })
         .catch((error: any) => console.error(error));
+
+      AdvertisementsService.getByOwner('gitforce').then(result => {
+        setAdvertisements(result.data.advertisements);
+      });
     },
     [active]
   );
@@ -59,7 +63,15 @@ export default function Home() {
           />
         );
       })}
-      <AdsCard image={ad.image} link={ad.link} text={ad.text} />;
+      {advertisements.map((advertisement: IAdvertisement, index: number) => {
+        return (
+          <AdsCard
+            key={advertisement.id}
+            image={advertisement.image}
+            link={advertisement.link}
+          />
+        );
+      })}
     </Page>
   );
 }
