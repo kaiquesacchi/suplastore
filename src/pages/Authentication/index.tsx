@@ -16,6 +16,9 @@ export default function Authentication() {
   const [inputPassword, setInputPassword] = useState('');
 
   const inputs = () => {
+    if (window.localStorage.getItem('user') !== null) {
+      history.push('profile');
+    }
     return activeTab === 'sign-up'
       ? [
           {
