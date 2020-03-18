@@ -85,15 +85,15 @@ export default function Header({ active }: IProps) {
     },
     {
       title: 'Proteínas',
-      id: 'proteins'
+      id: 'protein'
     },
     {
       title: 'Carboidratos',
-      id: 'carbs'
+      id: 'carbohydrate'
     },
     {
-      title: 'Vitaminas',
-      id: 'vitamins'
+      title: 'Aminoácidos',
+      id: 'aminoacid'
     }
   ];
 
@@ -114,7 +114,11 @@ export default function Header({ active }: IProps) {
             <button
               key={category.id}
               className={className(category.id)}
-              onClick={() => history.push(`/categories/${category.id}`)}
+              onClick={() => {
+                if (category.id !== active) {
+                  history.push(`/categories/${category.id}`);
+                }
+              }}
             >
               {category.title}
             </button>

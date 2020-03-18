@@ -39,20 +39,24 @@ export default function Admin() {
       <section>
         <h1>Produtos</h1>
         <table>
-          <tr>
-            <th>Nome</th>
-            <th>Quantidade</th>
-            <th>Preço</th>
-          </tr>
-          {products.map((product: IProduct) => {
-            return (
-              <tr key={product.id}>
-                <td>{product.name}</td>
-                <td>{product.availableQuantity}</td>
-                <td>{product.price}</td>
-              </tr>
-            );
-          })}
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Quantidade</th>
+              <th>Preço</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product: IProduct) => {
+              return (
+                <tr key={product.id}>
+                  <td>{product.name}</td>
+                  <td>{product.availableQuantity}</td>
+                  <td>{product.price}</td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
         <button onClick={populateProducts}>Popular banco de dados</button>
       </section>

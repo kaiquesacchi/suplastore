@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import './styles.css';
 
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+import { HashRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 import Home from './pages/Home';
 import Cart from './pages/Cart';
@@ -16,11 +16,17 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Home} />
+        <Route
+          exact
+          path="/"
+          component={() => {
+            return <Redirect to="/categories/topsellers" />;
+          }}
+        />
         <Route exact path="/admin" component={Admin} />
         <Route exact path="/authentication" component={Authentication} />
         <Route exact path="/cart" component={Cart} />
-        <Route exact path="/categories/:categoryName" component={Home} />
+        <Route exact path="/categories/:active" component={Home} />
         <Route exact path="/orderCompleted" component={OrderCompleted} />
         <Route exact path="/profile" component={Profile} />
       </Switch>

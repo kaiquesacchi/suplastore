@@ -84,6 +84,7 @@ export default function Home() {
           }
           return (
             <CartCard
+              key={product.id}
               image={product.image}
               title={product.name}
               price={product.price}
