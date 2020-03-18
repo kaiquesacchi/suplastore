@@ -3,8 +3,10 @@ import React from 'react';
 import Header from '../../components/Header';
 
 import { Page, Content } from './styles';
+import { useHistory } from 'react-router-dom';
 
 export default function Home() {
+  const history = useHistory();
   return (
     <Page>
       <Header />
@@ -21,6 +23,7 @@ export default function Home() {
           mensalidade de nosso parceiro <a href="https://google.com">GitFORCE</a>.
           Encontre os melhores personal-trainers de sua região e acelere seus ganhos!
         </p>
+        <button onClick={() => history.push('')}>Voltar às compras</button>
       </Content>
     </Page>
   );

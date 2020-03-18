@@ -27,4 +27,14 @@ export const Content = styled.div`
       }
     }
   }
+  button {
+    width: 10vw;
+    height: 4vw;
+    border-radius: 2vw;
+    border: none;
+    background-color: orange;
+    color: white;
+    font-size: 1.5rem;
+    margin: 5vh 0;
+  }
 `;
