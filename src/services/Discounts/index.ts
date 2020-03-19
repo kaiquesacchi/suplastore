@@ -1,7 +1,8 @@
 import axios from 'axios';
+import configJSON from '../../instance/config.json';
 
 export default class DiscountsService {
-  static url = 'http://localhost:5001/discount';
+  static url = configJSON.brokerURL + 'discount';
 
   static getAll() {
     return axios.get(DiscountsService.url, {});

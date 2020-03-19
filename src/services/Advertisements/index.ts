@@ -1,7 +1,8 @@
 import axios from 'axios';
+import configJSON from '../../instance/config.json';
 
 export default class AdvertisementsService {
-  static url = 'http://localhost:5001/advertisement';
+  static url = configJSON.brokerURL + 'advertisement';
 
   static getAll() {
     return axios.get(AdvertisementsService.url, {});

@@ -1,7 +1,8 @@
 import axios from 'axios';
+import configJSON from '../../instance/config.json';
 
 export default class HttpService {
-  static url = 'http://localhost:5000/';
+  static url = configJSON.backendURL;
 
   static get(path: string, data = {}) {
     return axios.get(HttpService.url + path, data);
