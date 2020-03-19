@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Page } from './styles';
 import ProductsService from '../../services/Products';
 import AdvertisementsService from '../../services/Advertisements';
+import DiscountsService from '../../services/Discounts';
 
 import ProductsJSON from './products.json';
 import AdvertisementsJSON from './ads.json';
+import DiscountsJSON from './discounts.json';
 
 import Header from '../../components/Header';
 
@@ -16,11 +18,18 @@ const populateProducts = () => {
   });
   alert('Banco de dados populado!');
 };
-
 const populateAds = () => {
   AdvertisementsJSON.defaultAds.forEach(advertisement => {
     AdvertisementsService.create(advertisement).then((_: any) => {
       console.log('Advertisement created!');
+    });
+  });
+  alert('Banco de dados populado!');
+};
+const populateDiscounts = () => {
+  DiscountsJSON.defaultDiscounts.forEach(discount => {
+    DiscountsService.create(discount).then((_: any) => {
+      console.log('Discounts created!');
     });
   });
   alert('Banco de dados populado!');
@@ -42,9 +51,20 @@ interface IAdvertisement {
   link: string;
 }
 
+interface IDiscount {
+  id: number;
+  owner: string;
+  percentage: number;
+  voucher: string;
+  text: string;
+  link: string;
+}
+
 export default function Admin() {
   const [products, setProducts] = useState([]);
   const [advertisements, setAdvertisements] = useState([]);
+  const [discounts, setDiscounts] = useState([]);
+
   const loadProducts = () => {
     ProductsService.getAll()
       .then(result => {
@@ -59,10 +79,18 @@ export default function Admin() {
       })
       .catch(error => console.error(error));
   };
+  const loadDiscounts = () => {
+    DiscountsService.getAll().then(result => {
+      setDiscounts(result.data.discounts);
+    });
+  };
+
   useEffect(() => {
     loadProducts();
     loadAdvertisements();
+    loadDiscounts();
   }, []);
+
   return (
     <Page>
       <Header />
@@ -119,6 +147,34 @@ export default function Admin() {
           </tbody>
         </table>
         <button onClick={populateAds}>Popular banco de dados</button>
+      </section>
+      <section>
+        <h1>Descontos</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>Dono</th>
+              <th>Porcentagem</th>
+              <th>Voucher</th>
+              <th>Texto</th>
+              <th>Link</th>
+            </tr>
+          </thead>
+          <tbody>
+            {discounts.map((discount: IDiscount) => {
+              return (
+                <tr key={discount.id}>
+                  <td>{discount.owner}</td>
+                  <td>{discount.percentage}</td>
+                  <td>{discount.voucher}</td>
+                  <td>{discount.text}</td>
+                  <td>{discount.link}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <button onClick={populateDiscounts}>Popular banco de dados</button>
       </section>
     </Page>
   );

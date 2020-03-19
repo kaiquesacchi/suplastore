@@ -1,0 +1,25 @@
+{
+  "defaultDiscounts": [
+    {
+      "owner": "suplastore",
+      "percentage": 10,
+      "voucher": "5vdvb56",
+      "text": "Você acaba de ganhar 10% em descontos na maior loja de suplementos do Brasil!",
+      "link": "http://www.suplastore.com"
+    },
+    {
+      "owner": "happyfit",
+      "percentage": 30,
+      "voucher": "12312634",
+      "text": "Aproveite até 30% de desconto nas academias mais próximas de sua casa!",
+      "link": "http://www.happyfit.com"
+    },
+    {
+      "owner": "gitforce",
+      "percentage": 50,
+      "voucher": "vhdsu156",
+      "text": "Os melhores descontos, só na GITFORCE, venha aproveitar 50% mais barato!",
+      "link": "http://www.gitforce.com"
+    }
+  ]
+}
