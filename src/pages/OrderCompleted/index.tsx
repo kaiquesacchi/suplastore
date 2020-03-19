@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Header from '../../components/Header';
 
 import { Page, Content } from './styles';
-import { useHistory } from 'react-router-dom';
+
+import DiscountsService from '../../services/Discounts';
+
+interface IDiscount {
+  id: number;
+  owner: string;
+  percentage: number;
+  voucher: string;
+  text: string;
+  link: string;
+}
 
 export default function Home() {
   const history = useHistory();
+  const [discounts, setDiscounts] = useState([]);
+
+  useEffect(() => {
+    DiscountsService.getByOwner('happyfit').then(result => {
+      setDiscounts(result.data.discounts);
+    });
+  }, []);
   return (
     <Page>
       <Header />
@@ -18,11 +36,13 @@ export default function Home() {
           processada. Após o pagamento, as informações de rastreio do pacote também
           chegarão ao seu email.
         </p>
-        <p>
-          <b>Incrível!</b> Sua compra também rendeu um <b>DESCONTO DE 10%</b> na
-          mensalidade de nosso parceiro <a href="https://google.com">GitFORCE</a>.
-          Encontre os melhores personal-trainers de sua região e acelere seus ganhos!
-        </p>
+        {discounts.map((discount: IDiscount) => {
+          return (
+            <p key={discount.id}>
+              Incrível! {discount.text} <a href={discount.link}>Acesse agora!</a>
+            </p>
+          );
+        })}
         <button onClick={() => history.push('')}>Voltar às compras</button>
       </Content>
     </Page>
