@@ -4,7 +4,7 @@ import Header from '../../components/Header';
 import ProductCard from '../../components/ProductCard';
 import AdsCard from '../../components/AdsCard';
 
-import { Page } from './styles';
+import { Page, PageSelector } from './styles';
 
 import ProductsService from '../../services/Products';
 import { useParams } from 'react-router-dom';
@@ -28,17 +28,28 @@ export default function Home() {
   const { active } = useParams();
   const [products, setProducts] = useState([]);
   const [advertisements, setAdvertisements] = useState([]);
+
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  useEffect(
+    () => {
+      setPage(1);
+    },
+    [active]
+  );
+
   useEffect(
     () => {
       let response;
       if (active === 'topsellers') {
-        response = ProductsService.getAll();
+        response = ProductsService.getAll(page, 3);
       } else {
-        response = ProductsService.getByType(active || 'topsellers');
+        response = ProductsService.getByType(active || 'topsellers', page, 3);
       }
       response
         .then((result: any) => {
           setProducts(result.data.products);
+          setTotalPages(result.data.pages);
         })
         .catch((error: any) => console.error(error));
 
@@ -46,7 +57,7 @@ export default function Home() {
         setAdvertisements(result.data.advertisements);
       });
     },
-    [active]
+    [active, page]
   );
   return (
     <Page>
@@ -72,6 +83,27 @@ export default function Home() {
           />
         );
       })}
+      <PageSelector>
+        <div
+          className="arrow"
+          onClick={() => {
+            if (page > 1) setPage(page - 1);
+          }}
+        >
+          &lt;
+        </div>
+        <div>
+          Página {page} de {totalPages}
+        </div>
+        <div
+          className="arrow"
+          onClick={() => {
+            if (page < totalPages) setPage(page + 1);
+          }}
+        >
+          &gt;
+        </div>
+      </PageSelector>
     </Page>
   );
 }
